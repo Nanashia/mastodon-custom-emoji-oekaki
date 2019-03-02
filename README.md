@@ -1,8 +1,11 @@
+（このリポジトリはFork版です。mamemomongaさんすばらしいツールありがとうございます）
+オリジナル: https://github.com/mamemomonga/mastodon-custom-emoji-oekaki
+
 # マストドン カスタム絵文字でお絵かきツール
 
 マストドンにカスタム絵文字でお絵かきできるツールです。
 
-https://mamemomonga.github.io/mastodon-custom-emoji-oekaki/
+https://nanashia.github.io/mastodon-custom-emoji-oekaki/
 
 # ツールの使い方
 

@@ -4,8 +4,8 @@ import EmojiMojis from './emoji_mojis'
 
 export default class EmojiOekaki {
 	constructor(args){
-		this.width  = 11;
-		this.height = 11;
+		this.width  = 12;
+		this.height = 20;
 		this.util=new Utility();
 		this.emojimojis=new EmojiMojis([
 			{ prefix: 'klg', icon: 'klg2640', h2k: true },
@@ -202,8 +202,10 @@ export default class EmojiOekaki {
 			for(let x=0; x<this.width; x++) {
 				const blank=$(this.blank_idom).clone();
 				blank.css({
-					'border':'2px solid #333333',
-					'margin':'1px',
+					'border':'1px solid rgba(33,33,33,0.3)',
+					'margin':'0px',
+					'margin-left':'1px',
+					'margin-top':'1px',
 				});
 				$(blank).attr({
 					'data-x':x,

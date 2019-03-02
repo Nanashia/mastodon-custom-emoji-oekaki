@@ -95,9 +95,10 @@ h1 {
 
 #tiles {
 	width: 418px;
-	height: 428px;
+	height: auto;
 	padding: 4px 4px 4px 4px;
 	background-color:rgb(57, 63, 79);
+    line-height: 0;
 }
 
 #tiles img {

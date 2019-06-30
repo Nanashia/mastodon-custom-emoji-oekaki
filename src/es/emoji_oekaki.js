@@ -4,7 +4,7 @@ import EmojiMojis from './emoji_mojis'
 
 export default class EmojiOekaki {
 	constructor(args){
-		this.width  = 12;
+		this.width  = 11;
 		this.height = 20;
 		this.util=new Utility();
 		this.emojimojis=new EmojiMojis([

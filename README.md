@@ -26,15 +26,15 @@ https://nanashia.github.io/mastodon-custom-emoji-oekaki/
 
 モジュールインストール
 
-	$ yarn install -D
+	$ npm i
 
 developmentの実行、http://localhost:3000/var/dev/index.html
 
-	$ yarn run gulp
+	$ npm run gulp
 
-productionの実行、http://localhost:3000/index.html
+productionのビルド
 
-	$ yarn run gulp production
+	$ npm run build
 
 # License
 

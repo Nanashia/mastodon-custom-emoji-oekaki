@@ -4,7 +4,7 @@ import EmojiMojis from './emoji_mojis'
 
 export default class EmojiOekaki {
 	constructor(args){
-		this.width  = 11;
+		this.width  = 12;
 		this.height = 20;
 		this.util=new Utility();
 		this.emojimojis=new EmojiMojis([
@@ -201,15 +201,10 @@ export default class EmojiOekaki {
 			let scr=[];
 			for(let x=0; x<this.width; x++) {
 				const blank=$(this.blank_idom).clone();
-				blank.css({
-					'border':'1px solid rgba(33,33,33,0.3)',
-					'margin':'0px',
-					'margin-left':'1px',
-					'margin-top':'1px',
-				});
 				$(blank).attr({
 					'data-x':x,
-					'data-y':y,
+                    'data-y': y,
+                    'class': 'tile cell'
 				});
 				$('#tiles').append( blank );
 				scr[x]='blank';
@@ -266,13 +261,8 @@ export default class EmojiOekaki {
 		for(let i=0;i<emoji.length;i++) {
 			const ijq=$('<img>',{
 				src: emoji[i].url,
-				'data-shortcode': emoji[i].shortcode,
-				css: {
-					'border': '2px solid rgb(57, 63, 79)',
-					'object-fit': 'contain',
-					'width':  32,
-					'height': 32,
-				},
+                'data-shortcode': emoji[i].shortcode,
+                'class': 'cell palette'
 			});
 			$('#emoji_palette').append(ijq);
 			if( emoji[i].shortcode == 'blank' ) this.blank_idom=ijq[0];

@@ -67,13 +67,12 @@ export default class EmojiOekaki {
 			window.open('https://'+this.instance_domain+'/share?text='+encodeURI($('#result').val()));
 		});
 
-		$('#bt_reset' ).on( 'click',()=>{ this.tiles_reset()       });
+		$('#bt_reset' ).on( 'click',()=>{ this.tiles_clear();      });
 		$('#bt_load'  ).on( 'click',()=>{ this.tiles_load()        });
 		$('#btn_left' ).on( 'click',()=>{ this.tiles_move('left')  });
 		$('#btn_right').on( 'click',()=>{ this.tiles_move('right') });
 		$('#btn_up'   ).on( 'click',()=>{ this.tiles_move('up')    });
 		$('#btn_down' ).on( 'click',()=>{ this.tiles_move('down')  });
-		$('#bt_reset' ).on( 'click',()=>{ this.tiles_reset()       });
 
         $('#btn_undo').on('click', () => { this.undo(); });
         $('#btn_redo').on('click', () => { this.redo(); });
@@ -157,14 +156,19 @@ export default class EmojiOekaki {
 		this.prev_keyword=keyword;
 	}
 
+    tiles_clear() {
+        this.tiles_reset();
+        this.push_sc(this.tiles_sc);
+    }
+
 	tiles_reset() {
 		const blank_src=this.blank_idom.src;
 		$('#tiles img').each((idx,elm)=>{
 			elm.src=blank_src;
 			this.tiles_sc[elm.dataset.y][elm.dataset.x]='blank';
 		});
-		this.result();
-	}
+        this.result();
+    }
 
 	tiles_update(tile_elms) {
 		this.tiles_reset();
@@ -177,7 +181,7 @@ export default class EmojiOekaki {
 			elm.dataset.shortcode=te.dataset.shortcode;
 			this.tiles_sc[elm.dataset.y][elm.dataset.x]=te.dataset.shortcode;
 		});
-		this.result();
+        this.result();
 	}
 
 	tiles_from_sc(){
@@ -197,7 +201,8 @@ export default class EmojiOekaki {
 		if(dir=="right"){ for(let y in sc) { sc[y].unshift(sc[y].pop()) }}
 		if(dir=="up")   { sc.push(sc.shift()) }
 		if(dir=="down") { sc.unshift(sc.pop()) }
-		this.tiles_from_sc();
+        this.tiles_from_sc();
+        this.push_sc(this.tiles_sc);
 	}
 
 	tiles(){
@@ -235,7 +240,7 @@ export default class EmojiOekaki {
 		});
 		if(this.search_update_interval) clearInterval(this.search_update_interval);
         this.search_update_interval = setInterval(() => { this.search_update() }, 500);
-            this.push_sc(this.tiles_sc);
+        this.push_sc(this.tiles_sc);
 	}
 
 	tiles_load() {
@@ -252,7 +257,7 @@ export default class EmojiOekaki {
 			}
 			ntile[y]=ntilex;
 		}
-		this.tiles_update(ntile);
+        this.tiles_update(ntile);
 	}
 
 	emoji_palette(emoji) {
@@ -262,7 +267,7 @@ export default class EmojiOekaki {
 			if(a.shortcode < b.shortcode) {
 				return -1;
 			} else if (a.shortcode > b.shortcode) {
-				return 1
+                return 1;
 			}
 			return 0;
 		});

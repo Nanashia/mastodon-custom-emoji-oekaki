@@ -4,13 +4,16 @@ import EmojiMojis from './emoji_mojis'
 
 export default class EmojiOekaki {
 	constructor(args){
-		this.width  = 12;
+		this.width  = 11;
 		this.height = 20;
 		this.util=new Utility();
 		this.emojimojis=new EmojiMojis([
 			{ prefix: 'klg', icon: 'klg2640', h2k: true },
 			{ prefix: 'nrk', icon: 'nrk30ca', h2k: true },
-		]);
+        ]);
+        this.saved_tiles_sc = [];
+        this.undo_max = 1000;
+        this.undo_count = 0;
 	}
 
 	init() {
@@ -70,6 +73,10 @@ export default class EmojiOekaki {
 		$('#btn_right').on( 'click',()=>{ this.tiles_move('right') });
 		$('#btn_up'   ).on( 'click',()=>{ this.tiles_move('up')    });
 		$('#btn_down' ).on( 'click',()=>{ this.tiles_move('down')  });
+		$('#bt_reset' ).on( 'click',()=>{ this.tiles_reset()       });
+
+        $('#btn_undo').on('click', () => { this.undo(); });
+        $('#btn_redo').on('click', () => { this.redo(); });
 
 		$('#btn_blank').on('click',()=>{
 			this.emoji_palette_select(this.util.shortcode2elm()['blank']);
@@ -178,7 +185,7 @@ export default class EmojiOekaki {
 		let te=[];
 		for(let y=0; y<this.height; y++) {
 			let tex=[];
-			for(let x=0; x<this.width; x++) { tex[x]=sc2elm[this.tiles_sc[y][x]] }
+            for (let x = 0; x < this.width; x++) { tex[x] = sc2elm[this.tiles_sc[y][x]]; }
 			te.push(tex);
 		}
 		this.tiles_update(te);
@@ -194,7 +201,7 @@ export default class EmojiOekaki {
 	}
 
 	tiles(){
-		this.tiles_sc=[];
+        this.tiles_sc = [];
 		$('#tiles').text('');
 
 		for(let y=0; y<this.height; y++) {
@@ -212,7 +219,7 @@ export default class EmojiOekaki {
 			$('#tiles').append( $('<br>') );
 			this.tiles_sc[y]=scr;
 		}
-		$('#tiles img').on('click',(e)=>{
+        $('#tiles img').on('click', (e) => {
 			const tg=e.target;
 			const x=tg.dataset.x, y=tg.dataset.y;
 			if(!this.selected_idom) { return }
@@ -223,10 +230,12 @@ export default class EmojiOekaki {
 				$(tg).attr({ src: this.selected_idom.src });
 				this.tiles_sc[y][x]=this.selected_idom.dataset.shortcode;
 			}
-			this.result();
+            this.result();
+            this.push_sc(this.tiles_sc);
 		});
 		if(this.search_update_interval) clearInterval(this.search_update_interval);
-		this.search_update_interval=setInterval(()=>{ this.search_update() },500);
+        this.search_update_interval = setInterval(() => { this.search_update() }, 500);
+            this.push_sc(this.tiles_sc);
 	}
 
 	tiles_load() {
@@ -312,4 +321,29 @@ export default class EmojiOekaki {
 		$('#result').val(buf);
 	}
 
+    undo() {
+        this.undo_count = Math.min(this.undo_count + 1, this.saved_tiles_sc.length - 1);
+        this.restore_sc(this.undo_count);
+        console.log(`undo cnt=${this.undo_count} len=${this.saved_tiles_sc.length}`);
+    }
+
+    redo() {
+        this.undo_count = Math.max(this.undo_count - 1, 0);
+        this.restore_sc(this.undo_count);
+        console.log(`redo cnt=${this.undo_count}`);
+    }
+
+    push_sc(tiles_sc) {
+        console.log(`push cnt=${this.undo_count} len=${this.saved_tiles_sc.length}`);
+        const sc = tiles_sc.map(a => a.slice(0));
+        this.saved_tiles_sc = [sc].concat(this.saved_tiles_sc.slice(this.undo_count, this.undo_max));
+        this.undo_count = 0;
+    }
+
+    restore_sc(i) {
+        if (this.saved_tiles_sc.length <= i) return;
+        if (i < 0) return;
+        this.tiles_sc = this.saved_tiles_sc[i].map(a => a.slice(0));
+        this.tiles_from_sc();
+    }
 }

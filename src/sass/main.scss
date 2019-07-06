@@ -83,13 +83,16 @@ h1 {
 }
 
 .container_main {
-    display: flex;
-    flex-wrap: nowrap;
     background-color: #000000;
 }
 
-@media all and (max-width: 640px) {
-    .container_main {
+.container_main .flex {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+@media all and (max-width: 764px) {
+    .container_main .flex {
         flex-wrap: wrap;
     }
 }
@@ -135,9 +138,15 @@ h1 {
     width: 100%;
 }
 .cont_ret_ctrl {
+    font-size: 30px;
 	padding: 5px;
 	background-color:#666666;
 }
+
+.cont_ret_ctrl span:hover {
+    background-color: rgba(133, 133, 133, 0.25)
+}
+
 .cont_ret_ctrl .left {
 	float: left;
 	vertical-align: middle;
@@ -146,7 +155,6 @@ h1 {
 .cont_ret_ctrl .cont_klg_btn {
 	border: 1px solid red;
 }
-
 
 .cont_ret_ctrl .right {
 	text-align: right;

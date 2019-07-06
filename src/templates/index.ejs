@@ -34,21 +34,37 @@
 <h1>カスタム絵文字でお絵かきツール</h1>
 絵文字情報をロード中...
 </div>
+</div>
+
+<div class="container_main">
 
 <h1><span id="instance_domain"></span> カスタム絵文字でお絵かきツール</h1>
-<div class="container_main">
+<div class="cont_ret_ctrl">
+<span id="btn_undo" class="minibt"><i class="fa fa-undo" aria-hidden="true"></i></span>
+<span id="btn_redo" class="minibt"><i class="fa fa-repeat" aria-hidden="true"></i></span>
+ | 
+<span id="btn_blank" class="minibt"><i class="fa fa-square" aria-hidden="true"></i></span>
+<span id="btn_left"  class="minibt"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
+<span id="btn_right" class="minibt"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+<span id="btn_up"    class="minibt"><i class="fa fa-arrow-up" aria-hidden="true"></i></span>
+<span id="btn_down"  class="minibt"><i class="fa fa-arrow-down" aria-hidden="true"></i></span>
+
+<div id="palette_history">
+</div>
+</div>
+<div class="flex">
 <div class="cont_left">
 <div id="tiles"></div>
 <textarea id="result"></textarea>
 <div class="cont_ret_ctrl">
 <div class="left">
-<input type="button" id="bt_ret_copy" value="コピー"> 
-<input type="button" id="bt_ret_share" value="シェア">
- | <input type="button" id="bt_load" value="読み込み">
+<input type="button" id="bt_ret_copy" value="コピー" /> 
+<input type="button" id="bt_ret_share" value="シェア" />
+ | <input type="button" id="bt_load" value="読み込み" />
 <span class="emojimoji_btn"></span>
 </div>
 <div class="right">
-<input type="button" id="bt_reset" value="リセット">
+<input type="button" id="bt_reset" value="リセット" />
 </div>
 </div>
 <div class="cont_result_count">文字数: <span id="result_count">0</span></div>
@@ -58,13 +74,6 @@
 <div class="cont_right_top">
 
 <div class="left">
-
-<span id="btn_blank" class="minibt"><i class="fa fa-square fa-x2" aria-hidden="true"></i></span>
-<span id="btn_left"  class="minibt"><i class="fa fa-arrow-circle-left fa-x2" aria-hidden="true"></i></span>
-<span id="btn_right" class="minibt"><i class="fa fa-arrow-circle-right fa-x2" aria-hidden="true"></i></span>
-<span id="btn_up"    class="minibt"><i class="fa fa-arrow-circle-up fa-x2" aria-hidden="true"></i></span>
-<span id="btn_down"  class="minibt"><i class="fa fa-arrow-circle-down fa-x2" aria-hidden="true"></i></span>
-
 
 <span id="selected_shortname">-</span>
 </div>

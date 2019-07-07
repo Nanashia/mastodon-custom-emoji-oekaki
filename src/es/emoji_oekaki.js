@@ -239,7 +239,6 @@ export default class EmojiOekaki {
             this.push_sc(this.tiles_sc);
         });
         $('#tiles img').on('contextmenu', (e) => {
-            console.log(e);
             e.preventDefault();
             this.pick_emoji(e.target);
         });
@@ -302,7 +301,6 @@ export default class EmojiOekaki {
     }
 
     pick_emoji(dom) {
-        console.log(dom);
         const sc = dom.dataset.shortcode;
         $('#emoji_palette img').each((idx, elem) => {
             if (elem.dataset.shortcode === sc) {

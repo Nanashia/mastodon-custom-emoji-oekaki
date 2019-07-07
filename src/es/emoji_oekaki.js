@@ -229,15 +229,20 @@ export default class EmojiOekaki {
 			const x=tg.dataset.x, y=tg.dataset.y;
 			if(!this.selected_idom) { return }
 			if ( tg.src == this.selected_idom.src ) {
-				$(tg).attr({ src: this.blank_idom.src });
-				this.tiles_sc[y][x]='blank';
+                $(tg).attr({ src: this.blank_idom.src });
+                tg.dataset.shortcode = this.tiles_sc[y][x]='blank';
 			} else {
 				$(tg).attr({ src: this.selected_idom.src });
-				this.tiles_sc[y][x]=this.selected_idom.dataset.shortcode;
+                tg.dataset.shortcode = this.tiles_sc[y][x] = this.selected_idom.dataset.shortcode;
 			}
             this.result();
             this.push_sc(this.tiles_sc);
-		});
+        });
+        $('#tiles img').on('contextmenu', (e) => {
+            console.log(e);
+            e.preventDefault();
+            this.pick_emoji(e.target);
+        });
 		if(this.search_update_interval) clearInterval(this.search_update_interval);
         this.search_update_interval = setInterval(() => { this.search_update() }, 500);
         this.push_sc(this.tiles_sc);
@@ -294,7 +299,17 @@ export default class EmojiOekaki {
 		this.selected_idom=dom;
 		if(this.prev_selected_idom) $(this.prev_selected_idom).css('border','2px solid rgb(57, 63, 79)');
 		this.prev_selected_idom=dom;
-	}
+    }
+
+    pick_emoji(dom) {
+        console.log(dom);
+        const sc = dom.dataset.shortcode;
+        $('#emoji_palette img').each((idx, elem) => {
+            if (elem.dataset.shortcode === sc) {
+                this.emoji_palette_select(elem);
+            }
+        });
+    }
 
 	result() {
 		let nr=[];
@@ -329,17 +344,14 @@ export default class EmojiOekaki {
     undo() {
         this.undo_count = Math.min(this.undo_count + 1, this.saved_tiles_sc.length - 1);
         this.restore_sc(this.undo_count);
-        console.log(`undo cnt=${this.undo_count} len=${this.saved_tiles_sc.length}`);
     }
 
     redo() {
         this.undo_count = Math.max(this.undo_count - 1, 0);
         this.restore_sc(this.undo_count);
-        console.log(`redo cnt=${this.undo_count}`);
     }
 
     push_sc(tiles_sc) {
-        console.log(`push cnt=${this.undo_count} len=${this.saved_tiles_sc.length}`);
         const sc = tiles_sc.map(a => a.slice(0));
         this.saved_tiles_sc = [sc].concat(this.saved_tiles_sc.slice(this.undo_count, this.undo_max));
         this.undo_count = 0;
